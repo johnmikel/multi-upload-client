@@ -1,0 +1,25 @@
+on:
+  push:
+    branches: ["main"]
+    
+jobs:
+  deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.x.x'
+    - name: Authenticate to Google Cloud
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.SERVICE_ACCOUNT }}
+    - name: Set up Google Cloud SDK environment
+      uses: google-github-actions/setup-gcloud@v1
+    - name: Deploy App
+      run: |-
+        gcloud app deploy
