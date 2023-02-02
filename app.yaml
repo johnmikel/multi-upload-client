@@ -1,2 +1,15 @@
-runtime: custom
-env: flex
+#Docker approach
+#runtime: custom
+#env: flex
+
+#Static approach
+runtime: python310
+
+handlers:
+  - url: /(.+)
+    static_files: out/wwwroot/\1
+    upload: out/wwwroot/(.*)
+
+  - url: /
+    static_files: out/wwwroot/index.html
+    upload: out/wwwroot/index.html

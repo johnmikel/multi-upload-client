@@ -13,6 +13,12 @@ jobs:
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '7.x.x'
+    - name: Install dependencies
+      run: |-
+        dotnet restore
+    - name: Build App
+      run: |-
+        dotnet publish -c Release -o out
     - name: Authenticate to Google Cloud
       uses: 'google-github-actions/auth@v1'
       with:
